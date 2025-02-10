@@ -1,5 +1,5 @@
 import express from 'express';
-import { buscarMedicosPorNome, buscarMedicosPorEspecialidade, buscarTodosMedicos } from './serviço/retornamedico_servico.js';
+import { procurarTodosMedicos, procurarMedicosPorSeuNome, procurarMedicosPorSuaEspecialidade  } from './serviço/retornamedico_servico.js';
 const app = express();
 
 app.get('/medicos', async (req, res) => {
@@ -8,20 +8,20 @@ app.get('/medicos', async (req, res) => {
     const especialidade = req.query.especialidade;
     
     if (typeof nome === 'undefined' && typeof especialidade === 'undefined') {
-        medicos = await  buscarTodosMedicos()}
+        medicos = await  procurarTodosMedicos()}
     else if(typeof especialidade === 'undefined'){
         console.log(nome)
-        medicos = await buscarMedicosPorNome(nome)
+        medicos = await procurarMedicosPorSeuNome(nome)
     }
     else if(typeof nome === 'undefined'){
-        medicos = await buscarMedicosPorEspecialidade(especialidade)
+        medicos = await procurarMedicosPorSuaEspecialidade(especialidade)
 
     }
     if (medicos.length > 0) {
         res.json(medicos);
         
     }else {
-        res.status(404).json({ mensagem: "Não há nenhum médico, queridinha(o)" });
+        res.status(404).json({ mensagem: "Não há nenhum médico disponível no momento. )" });
     }
    
 
